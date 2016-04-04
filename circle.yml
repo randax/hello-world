@@ -21,5 +21,3 @@ test:
     - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
     - mocha test/integration
 #    - istanbul cover _mocha --dir $CIRCLE_ARTIFACTS/coverage
-
-deployment:
