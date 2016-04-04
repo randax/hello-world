@@ -10,7 +10,12 @@ dependencies:
   override:
     - docker info
     - docker build -t $IMAGE_NAME:$(git describe --tags --always) .
+
+  cache_directories:
+      - ~/kubernetes
+
   pre:
+    - ./ensure-kubernetes-installed.sh
     - npm install --global mocha
 #    - npm install --global istanbul
     - npm install --production
@@ -21,3 +26,5 @@ test:
     - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
     - mocha test/integration
 #    - istanbul cover _mocha --dir $CIRCLE_ARTIFACTS/coverage
+
+deployment:
