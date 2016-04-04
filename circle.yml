@@ -1,5 +1,17 @@
-deployment:
-  dockerhub:
-    branch: master
-    commands:
-      - $TRIGGER_DOCKER_HUB_BUILD
+machine:
+  node:
+    version: 4.4
+  services:
+    - docker
+  enviroment:
+    IMAGE_NAME: hello-world
+
+    pre:
+      - npm install --global mocha
+      - npm install --production
+
+  test:
+    override:
+      - mocha test/unit
+      - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
+      - mocha test/integration
