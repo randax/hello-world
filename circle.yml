@@ -6,6 +6,9 @@ machine:
   environment:
       IMAGE_NAME: hello-world
 
+  override:
+    - docker info
+    - docker build -t $IMAGE_NAME:$(git describe --tags --always) .
   pre:
     - npm install --global mocha
     - npm install --production
