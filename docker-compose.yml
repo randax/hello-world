@@ -1,0 +1,8 @@
+app:
+  image: node
+  volumes:
+    - ./:/root/
+  working_dir: /root/
+  command: node app.js
+  ports:
+    - "8000:8000"
