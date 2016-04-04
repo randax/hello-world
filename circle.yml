@@ -4,13 +4,15 @@ machine:
   services:
     - docker
   environment:
-      IMAGE_NAME: hello-world
+    IMAGE_NAME: hello-world
 
+dependencies:
   override:
     - docker info
     - docker build -t $IMAGE_NAME:$(git describe --tags --always) .
   pre:
     - npm install --global mocha
+#    - npm install --global istanbul
     - npm install --production
 
 test:
@@ -18,3 +20,6 @@ test:
     - mocha test/unit
     - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
     - mocha test/integration
+#    - istanbul cover _mocha --dir $CIRCLE_ARTIFACTS/coverage
+
+deployment:
