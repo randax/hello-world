@@ -1,0 +1,7 @@
+app:
+  image: node
+  working_dir: /root/
+  command: node app.js
+  ports:
+    - "8000:8000"
+
