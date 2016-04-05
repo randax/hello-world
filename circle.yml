@@ -19,6 +19,7 @@ dependencies:
     - npm install --global mocha
 #    - npm install --global istanbul
     - npm install --production
+    - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
 
 test:
   override:
