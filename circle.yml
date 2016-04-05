@@ -28,7 +28,8 @@ dependencies:
 test:
   override:
     - mocha test/unit
-    - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
+#    - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
+    - docker run -d -p 8000:8000 $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1
     - mocha test/integration
 
 deployment:
