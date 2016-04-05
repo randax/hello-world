@@ -20,14 +20,10 @@ dependencies:
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 > ~/docker/image.tar
-
-
-
-
   pre:
     - npm install --global mocha
     - npm install --production
-    - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
+    - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
 
 test:
   override:
