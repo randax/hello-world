@@ -25,7 +25,6 @@ dependencies:
 
 
   pre:
-    - ./ensure-kubernetes-installed.sh
     - npm install --global mocha
     - npm install --production
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello:$CIRCLE_SHA1 .
