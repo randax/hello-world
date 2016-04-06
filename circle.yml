@@ -18,7 +18,8 @@ dependencies:
     - ~/google-cloud-sdk
     - ~/docker
   override:
-    - sudo ./ensure-gcloud-installed.sh
+    - if [ ! -d ~/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; ~/google-cloud-sdk/bin/gcloud components update preview; fi
+#    - sudo ./ensure-gcloud-installed.sh
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 > ~/docker/image.tar
