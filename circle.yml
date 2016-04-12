@@ -41,8 +41,8 @@ deployment:
   prod:
     branch: master
     commands:
-#      - ./auth-gcloud.sh
-      - echo $GCLOUD_KEY | base64 --decode > gcloud.p12; gcloud auth activate-service-account $GCLOUD_EMAIL --key-file gcloud.p12; ssh-keygen -f ~/.ssh/google_compute_engine -N ""
+      - ./auth-gcloud.sh
+#      - echo $GCLOUD_KEY | base64 --decode > gcloud.p12; gcloud auth activate-service-account $GCLOUD_EMAIL --key-file gcloud.p12; ssh-keygen -f ~/.ssh/google_compute_engine -N ""
       - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world
       - kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
       - kubectl expose deployment hello-world --type="LoadBalancer"
