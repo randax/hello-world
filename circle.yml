@@ -25,7 +25,7 @@ dependencies:
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 > ~/docker/image.tar
   pre:
-    - cd ~ && git clone https://github.com/GoogleCloudPlatform/kubernetes.git; cd ~/kubernetes && hack/build-go.sh
+#    - cd ~ && git clone https://github.com/GoogleCloudPlatform/kubernetes.git; cd ~/kubernetes && hack/build-go.sh
     - npm install --global mocha
     - npm install --production
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
