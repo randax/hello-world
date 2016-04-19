@@ -20,7 +20,7 @@ dependencies:
     - ~/kubernetes
   override:
 #    - if [ ! -d ~/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; ~/google-cloud-sdk/bin/gcloud components update preview; fi
-    - sudo ./ensure-gcloud-installed.sh
+#    - sudo ./ensure-gcloud-installed.sh
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 > ~/docker/image.tar
@@ -42,7 +42,6 @@ deployment:
     branch: master
     commands:
       - ./auth-gcloud.sh
-#      - echo $GCLOUD_KEY | base64 --decode > gcloud.p12; gcloud auth activate-service-account $GCLOUD_EMAIL --key-file gcloud.p12; ssh-keygen -f ~/.ssh/google_compute_engine -N ""
-      - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world
+      - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world > /dev/null
       - kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
       - kubectl expose deployment hello-world --type="LoadBalancer"
