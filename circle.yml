@@ -11,7 +11,7 @@ machine:
     CLOUDSDK_PYTHON_SITEPACKAGES: 1
     CLOUDSDK_COMPUTE_ZONE: us-central1-b
     CLOUDSDK_CORE_PROJECT: $GCLOUD_PROJECTID
-    PATH: $PATH:/home/ubuntu/google-cloud-sdk/bin
+#    PATH: $PATH:/home/ubuntu/google-cloud-sdk/bin
 
 dependencies:
   cache_directories:
@@ -44,6 +44,10 @@ deployment:
     branch: master
     commands:
       - ./auth-gcloud.sh
-      - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world > /dev/null
-      - gcloud kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
-      - gcloud kubectl expose deployment hello-world --type="LoadBalancer"
+      - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world
+      - gcloud config set project $GCLOUD_PROJECTID
+      - gcloud config set compute/zone us-central1-b
+      - gcloud config set container/cluster $IMAGE_NAME
+      - gcloud container clusters get-credentials CLUSTER_NAME
+      - kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
+      - kubectl expose deployment hello-world --type="LoadBalancer"
