@@ -45,5 +45,5 @@ deployment:
     commands:
       - ./auth-gcloud.sh
       - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world > /dev/null
-      - kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
-      - kubectl expose deployment hello-world --type="LoadBalancer"
+      - gcloud kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
+      - gcloud kubectl expose deployment hello-world --type="LoadBalancer"
