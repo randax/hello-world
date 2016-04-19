@@ -25,7 +25,9 @@ dependencies:
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 > ~/docker/image.tar
   pre:
-    - ./ensure-kubernetes-installed.sh
+#    - ./ensure-kubernetes-installed.sh
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+    - sudo chmod 757 /home/ubuntu/.config/gcloud/logs -R
     - npm install --global mocha
     - npm install --production
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
