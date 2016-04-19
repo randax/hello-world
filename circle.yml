@@ -45,7 +45,7 @@ deployment:
     commands:
       - ./auth-gcloud.sh
       - gcloud docker push $EXTERNAL_REGISTRY_ENDPOINT/hello-world
-      - gcloud config set project $GCLOUD_PROJECTID
+      - gcloud config set project i-guide-127220
       - gcloud config set compute/zone us-central1-b
       - gcloud config set container/cluster $IMAGE_NAME
       - gcloud container clusters get-credentials CLUSTER_NAME
