@@ -19,13 +19,11 @@ dependencies:
     - ~/docker
     - ~/kubernetes
   override:
-#    - if [ ! -d ~/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; ~/google-cloud-sdk/bin/gcloud components update preview; fi
-#    - sudo ./ensure-gcloud-installed.sh
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
     - docker build -t $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 .
     - mkdir -p ~/docker; docker save $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 > ~/docker/image.tar
   pre:
-#    - ./ensure-kubernetes-installed.sh
+
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
     - sudo chmod 757 /home/ubuntu/.config/gcloud/logs -R
     - npm install --global mocha
@@ -35,7 +33,6 @@ dependencies:
 test:
   override:
     - mocha test/unit
-#    - docker run -d -p 8000:8000 $IMAGE_NAME:$(git describe --tags --always); sleep 10
     - docker run -d -p 8000:8000 $EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1
     - mocha test/integration
 
@@ -48,6 +45,6 @@ deployment:
       - gcloud config set project i-guide-127220
       - gcloud config set compute/zone us-central1-b
       - gcloud config set container/cluster $IMAGE_NAME
-      - gcloud container clusters get-credentials hello-world
+#      - gcloud container clusters get-credentials hello-world
       - kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
       - kubectl expose deployment hello-world --type="LoadBalancer"
