@@ -48,6 +48,6 @@ deployment:
       - gcloud config set project i-guide-127220
       - gcloud config set compute/zone us-central1-b
       - gcloud config set container/cluster $IMAGE_NAME
-      - gcloud container clusters get-credentials CLUSTER_NAME
+      - gcloud container clusters get-credentials hello-world
       - kubectl run hello-world --image=$EXTERNAL_REGISTRY_ENDPOINT/hello-world:$CIRCLE_SHA1 --port=8000
       - kubectl expose deployment hello-world --type="LoadBalancer"
