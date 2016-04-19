@@ -1,5 +1,5 @@
 FROM node:latest
 COPY . /root/
 RUN cd /root/; npm install --production
-EXPOSE 3000
+EXPOSE 8000
 CMD ["node", "/root/app.js"]
